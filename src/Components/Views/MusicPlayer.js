@@ -11,8 +11,8 @@ class MusicPlayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      playing : false,
-      currentSong : null,
+      playing : this.props.play == 1 ? true : false,
+      currentSong : this.props.index,
       initiated : this.props.data.initiated
     };
     this.refs = {
@@ -38,7 +38,6 @@ class MusicPlayer extends Component {
           <div className="wrapper">
             <Controls
               data = { this.state }
-              togglePlay = { this.togglePlay }
               seekDuration = { this.seekDuration }
             />
             <Footer />
@@ -53,6 +52,7 @@ class MusicPlayer extends Component {
   selectSong = (song) => {
     // Define a música selecionada
     this.currentSong = song;
+    this.props.songStart.bind(this);
 
     // Reproduz o áudio
     if(this.nowPlaying)
@@ -63,9 +63,10 @@ class MusicPlayer extends Component {
 
     // Monitora o fim da música para passar para a próxima via MusicWheel
     this.nowPlaying.addEventListener('ended', function() {
-      this.child.nextSong();
+      //this.child.nextSong();
+      this.props.index ++; // TODO: Reiniciar index caso chegue na última música
     }.bind(this), false);
-    this.setState({ playing : true });
+    this.props.songStart();
 
     // Atualiza a barra de progressão
     // TODO: mover para uma função específica?

@@ -35,8 +35,8 @@ class Controls extends Component {
     			<div id="btn_info" onClick={this.toggleInfo}>
           </div>
           <button id="btn_play_pause"
-                  onClick={this.togglePlay}
-                  className={ 'control' + (!data.playing ? ' play' : ' pause') }>
+                  onClick={this.props.play == 1 ? this.props.songPause : this.props.songPlay }
+                  className={ 'control' + (!this.props.play == 1 ? ' play' : ' pause') }>
             <span className="left"></span>
             <span className="right"></span>
           </button>
@@ -83,10 +83,6 @@ class Controls extends Component {
      this.setState({ toggleInfo : false });
   }
 
-  togglePlay = (e) => {
-  	this.props.togglePlay();
-  }
-
   toggleShare = (e) => {
   	//this.props.toggleShare();
   	if(!this.state.toggledShare)
@@ -113,7 +109,6 @@ class Controls extends Component {
 
 Controls.propTypes = {
   data: PropTypes.object.isRequired,
-  togglePlay: PropTypes.func.isRequired
 }
 
 export default Controls;
